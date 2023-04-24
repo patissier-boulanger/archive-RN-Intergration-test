@@ -1,13 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * Generated with the TypeScript template
- * https://github.com/react-native-community/react-native-template-typescript
- *
- * @format
- */
-
 import React, {useState} from 'react';
 import {
   Button,
@@ -20,6 +10,10 @@ import {
 } from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+
+import {startServer} from './util/startServer';
+
+startServer();
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -43,25 +37,24 @@ const App = () => {
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
-          <Text
-            style={{
-              fontSize: 64,
-            }}>
-            {text}
-          </Text>
-
+          <Text>{text}</Text>
           <Button
             testID="BUTTON"
             title="TEST BUTTON"
             onPress={async () => {
               console.log('BUTTON PRESS STARTED');
-
               try {
-                setText('PRESSED');
-
                 console.log('11 -- PRESSED -- 11');
-
-                console.log('22 -- PRESSED -- 22');
+                try {
+                  const response = await fetch('/api/movies');
+                  if (response.ok) {
+                    setText('OK');
+                  } else {
+                    setText('FAILED');
+                  }
+                } catch (error) {
+                  console.error(error);
+                }
               } catch (error) {
                 console.error(error);
               }
