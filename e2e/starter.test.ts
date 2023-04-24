@@ -10,8 +10,6 @@ describe('기본 테스트', () => {
   });
 
   it('기본 테스트 with MSW', async () => {
-    console.log('기본 테스트');
-
     await expect(element(by.id('BUTTON'))).toBeVisible();
     await element(by.id('BUTTON')).tap();
     await expect(element(by.text('OK'))).toBeVisible();

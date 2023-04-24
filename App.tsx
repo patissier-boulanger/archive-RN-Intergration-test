@@ -11,7 +11,7 @@ import {
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
-import {startServer} from './util/startServer';
+import {startServer} from './mocks/startServer';
 
 startServer();
 
