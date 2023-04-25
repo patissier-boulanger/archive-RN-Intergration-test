@@ -20,7 +20,11 @@ export function HomeTabNavigation() {
         tabBarIconStyle: {display: 'none'},
       }}>
       <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Settings" component={SettingStackNavigation} />
+      <Tab.Screen
+        name="Settings"
+        component={SettingStackNavigation}
+        options={{tabBarTestID: 'SettingTab'}}
+      />
     </Tab.Navigator>
   );
 }

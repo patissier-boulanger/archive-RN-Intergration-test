@@ -23,7 +23,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}}>
-        {!isAuthenticated ? (
+        {isAuthenticated ? (
           <>
             <Stack.Screen
               name="HomeTabNavigation"

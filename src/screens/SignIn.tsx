@@ -50,7 +50,7 @@ export const SignIn = () => {
     <View style={styles.container}>
       <Image
         source={require('../../assets/images/logo.png')}
-        style={{width: '50%', height: '30%', resizeMode: 'contain'}}
+        style={styles.logoImage}
       />
       <TextInput
         style={styles.input}
@@ -104,5 +104,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'center',
+  },
+  logoImage: {
+    width: '50%',
+    height: '30%',
+    resizeMode: 'contain',
   },
 });

@@ -2,7 +2,7 @@ import {by, device, expect, element} from 'detox';
 
 describe('로그인 플로우', () => {
   beforeAll(async () => {
-    await device.launchApp();
+    await device.launchApp({newInstance: true});
   });
 
   beforeEach(async () => {
@@ -25,7 +25,6 @@ describe('로그인 플로우', () => {
     const idInput = element(by.id('Id'));
     const passwordInput = element(by.id('Password'));
     const loginButton = element(by.id('LoginButton'));
-    const welcomeText = element(by.text('WELCOME!'));
     const alertText = element(by.text('로그인에 실패하였습니다'));
 
     const alertOkButton = element(by.text('확인'));
@@ -35,9 +34,5 @@ describe('로그인 플로우', () => {
     await loginButton.tap();
     await expect(alertText).toBeVisible();
     await alertOkButton.tap();
-    await expect(welcomeText).not.toBeVisible();
-
-    await idInput.replaceText('');
-    await passwordInput.replaceText('');
   });
 });

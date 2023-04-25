@@ -10,7 +10,7 @@ export const Setting = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID="SettingPage">
       <View style={styles.userInfoContainer}>
         <Image
           source={{uri: 'https://placekitten.com/200/200'}}
@@ -19,6 +19,7 @@ export const Setting = () => {
         <Text style={styles.nickname}>User</Text>
       </View>
       <TouchableOpacity
+        testID="NavigateToEditProfile"
         onPress={handleEditProfilePress}
         style={styles.editProfileButton}>
         <Text style={styles.editProfileButtonText}>Edit Profile</Text>

@@ -8,9 +8,13 @@ import {
   TouchableOpacity,
   Pressable,
   Keyboard,
+  Alert,
 } from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 export const EditProfile = ({hasAgeRestriction}: any) => {
+  const navigation = useNavigation();
+
   const [age, setAge] = useState('');
   const [ageInputError, setAgeInputError] = useState('');
 
@@ -28,13 +32,32 @@ export const EditProfile = ({hasAgeRestriction}: any) => {
     Keyboard.dismiss();
   };
 
+  const handleEditButton = () => {
+    Alert.alert(
+      'Profile edited',
+      '',
+      [
+        {
+          text: 'OK',
+          onPress: () => navigation.goBack(),
+        },
+      ],
+      {cancelable: false},
+    );
+  };
+
+  const isDisabled = age === '' || ageInputError !== '';
+
   return (
-    <Pressable onPress={dismissKeyboard} style={styles.container}>
+    <Pressable
+      onPress={dismissKeyboard}
+      style={styles.container}
+      testID="EditProfilePage">
       <View style={styles.inputContainer}>
         <Text style={styles.label}>User Age</Text>
         <TextInput
           style={[styles.input, !!ageInputError && styles.inputError]}
-          testID="Age"
+          testID="AgeInput"
           placeholder="Age"
           value={age}
           onChangeText={handleBirthdayChange}
@@ -49,7 +72,11 @@ export const EditProfile = ({hasAgeRestriction}: any) => {
           <Switch style={styles.switch} value={false} />
         </View>
       )}
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity
+        testID="EditProfileButton"
+        onPress={handleEditButton}
+        disabled={isDisabled}
+        style={[styles.button, isDisabled && styles.disabledButton]}>
         <Text style={styles.buttonText}>Edit</Text>
       </TouchableOpacity>
     </Pressable>
@@ -103,5 +130,8 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#fff',
     fontSize: 16,
+  },
+  disabledButton: {
+    backgroundColor: '#ccc',
   },
 });
