@@ -9,7 +9,7 @@ describe('로그인 플로우', () => {
     await device.reloadReactNative();
   });
 
-  it('로그인에 성공한 경우 정상적으로 페이지에 접근할 수 있다.', async () => {
+  it('로그인에 성공한 경우 정상적으로 Home에 접근할 수 있다.', async () => {
     const idInput = element(by.id('Id'));
     const passwordInput = element(by.id('Password'));
     const loginButton = element(by.id('LoginButton'));
