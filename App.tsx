@@ -1,68 +1,42 @@
-import React, {useState} from 'react';
-import {
-  Button,
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  useColorScheme,
-  View,
-  Text,
-} from 'react-native';
+import React from 'react';
+import {useSelector} from 'react-redux';
 
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {NavigationContainer} from '@react-navigation/native';
+
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import {startServer} from './mocks/startServer';
+import {SignIn} from './src/screens/SignIn';
+import {HomeTabNavigation} from './src/navigation/HomeTabNavigation';
 
 startServer();
 
+const Stack = createNativeStackNavigator();
+
 const App = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  const [text, setText] = useState('NOT PRESSED');
+  const isAuthenticated = useSelector<{
+    auth: {
+      loggedIn: boolean;
+    };
+  }>(state => state.auth.loggedIn);
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Text>{text}</Text>
-          <Button
-            testID="BUTTON"
-            title="TEST BUTTON"
-            onPress={async () => {
-              console.log('BUTTON PRESS STARTED');
-              try {
-                console.log('11 -- PRESSED -- 11');
-                try {
-                  const response = await fetch('/api/movies');
-                  if (response.ok) {
-                    setText('OK');
-                  } else {
-                    setText('FAILED');
-                  }
-                } catch (error) {
-                  console.error(error);
-                }
-              } catch (error) {
-                console.error(error);
-              }
-            }}
-          />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{headerShown: false}}>
+        {isAuthenticated ? (
+          <>
+            <Stack.Screen
+              name="HomeTabNavigation"
+              component={HomeTabNavigation}
+            />
+          </>
+        ) : (
+          <>
+            <Stack.Screen name="SignIn" component={SignIn} />
+          </>
+        )}
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 
