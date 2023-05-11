@@ -46,7 +46,7 @@ export const HomeView = () => {
   ];
 
   return (
-    <View style={styles.container}>
+    <View testID="Home" style={styles.container}>
       {feedItems.map(item => (
         <View style={styles.card} key={item.id}>
           <View style={styles.cardHeader}>

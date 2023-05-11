@@ -1,4 +1,5 @@
 import {by, device, expect, element} from 'detox';
+import {FIXTURE} from '../src/common/constants';
 
 describe('로그인 플로우', () => {
   beforeAll(async () => {
@@ -9,28 +10,25 @@ describe('로그인 플로우', () => {
     await device.reloadReactNative();
   });
 
-  it('로그인에 성공한 경우 정상적으로 Home에 접근할 수 있다.', async () => {
-    const idInput = element(by.id('Id'));
-    const passwordInput = element(by.id('Password'));
-    const loginButton = element(by.id('LoginButton'));
-    const welcomeText = element(by.text('WELCOME!'));
+  const idInput = element(by.id('Id'));
+  const passwordInput = element(by.id('Password'));
+  const loginButton = element(by.id('LoginButton'));
 
-    await idInput.replaceText('Mike');
-    await passwordInput.replaceText('12345');
+  it('유저는 로그인에 성공한 경우 Home으로 이동한다', async () => {
+    const Home = element(by.id('Home'));
+
+    await idInput.replaceText(FIXTURE.VALID_USER.ID);
+    await passwordInput.replaceText(FIXTURE.VALID_USER.PASSWORD);
     await loginButton.tap();
-    await expect(welcomeText).toBeVisible();
+    await expect(Home).toBeVisible();
   });
 
-  it('로그인에 실패한 경우 실패 알림을 볼 수 있다', async () => {
-    const idInput = element(by.id('Id'));
-    const passwordInput = element(by.id('Password'));
-    const loginButton = element(by.id('LoginButton'));
+  it('유저는 로그인에 실패할 경우 Alert이 보여진다', async () => {
     const alertText = element(by.text('로그인에 실패하였습니다'));
-
     const alertOkButton = element(by.text('확인'));
 
-    await idInput.replaceText('Mike');
-    await passwordInput.replaceText('123');
+    await idInput.replaceText(FIXTURE.INVALID_USER.ID);
+    await passwordInput.replaceText(FIXTURE.INVALID_USER.PASSWORD);
     await loginButton.tap();
     await expect(alertText).toBeVisible();
     await alertOkButton.tap();

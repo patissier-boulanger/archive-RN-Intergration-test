@@ -32,7 +32,6 @@ export const SignIn = () => {
 
       if (response.ok) {
         dispatch(loginSuccess());
-        console.log('dispatched');
       } else {
         Alert.alert(
           '로그인에 실패하였습니다',

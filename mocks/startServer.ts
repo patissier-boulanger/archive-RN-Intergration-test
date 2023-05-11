@@ -1,5 +1,6 @@
 import {createServer, Server} from 'miragejs';
-import {moviesRoutes} from './routes/auth';
+import {authRoutes} from './routes/auth';
+import {profileRoutes} from './routes/profile';
 
 let window: Window = {} as {
   server: Server;
@@ -12,7 +13,8 @@ export function startServer() {
 
   window.server = createServer({
     routes() {
-      moviesRoutes(this);
+      authRoutes(this);
+      profileRoutes(this);
     },
   });
 }

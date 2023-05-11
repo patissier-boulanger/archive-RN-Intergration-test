@@ -32,18 +32,36 @@ export const EditProfile = ({hasAgeRestriction}: any) => {
     Keyboard.dismiss();
   };
 
-  const handleEditButton = () => {
-    Alert.alert(
-      'Profile edited',
-      '',
-      [
-        {
-          text: 'OK',
-          onPress: () => navigation.goBack(),
+  const handlePressEditButton = async () => {
+    try {
+      const response = await fetch('/api/profile/age', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      ],
-      {cancelable: false},
-    );
+        body: JSON.stringify({
+          age,
+        }),
+      });
+
+      if (response.ok) {
+        Alert.alert(
+          'Profile edited',
+          '',
+          [
+            {
+              text: 'OK',
+              onPress: () => navigation.goBack(),
+            },
+          ],
+          {cancelable: false},
+        );
+      } else {
+        Alert.alert('Error', '', [{text: 'OK'}], {cancelable: false});
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const isDisabled = age === '' || ageInputError !== '';
@@ -74,7 +92,7 @@ export const EditProfile = ({hasAgeRestriction}: any) => {
       )}
       <TouchableOpacity
         testID="EditProfileButton"
-        onPress={handleEditButton}
+        onPress={handlePressEditButton}
         disabled={isDisabled}
         style={[styles.button, isDisabled && styles.disabledButton]}>
         <Text style={styles.buttonText}>Edit</Text>
